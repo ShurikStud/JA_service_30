@@ -21,6 +21,11 @@ android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="stop"/>
+        <Button
+            android:id="@+id/activity_main_button_executor_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EService"/>
     </LinearLayout>
 
     <ProgressBar

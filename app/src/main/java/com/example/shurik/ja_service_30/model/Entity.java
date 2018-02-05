@@ -4,7 +4,7 @@ package com.example.shurik.ja_service_30.model;
  * Created by shurik on 05.02.2018.
  */
 
-public class model {
+public class Entity {
 
     private int id;
     private String name;
@@ -12,7 +12,7 @@ public class model {
 
     @Override
     public String toString() {
-        return "model{" +
+        return "Entity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
@@ -24,7 +24,7 @@ public class model {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        model model = (model) o;
+        Entity model = (Entity) o;
 
         return id == model.id;
 
@@ -60,7 +60,7 @@ public class model {
         this.description = description;
     }
 
-    public model(int id, String name, String description) {
+    public Entity(int id, String name, String description) {
 
         this.id = id;
         this.name = name;
