@@ -26,6 +26,11 @@ android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="EService"/>
+        <Button
+            android:id="@+id/activity_main_button_intent_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="intent service"/>
     </LinearLayout>
 
     <ProgressBar

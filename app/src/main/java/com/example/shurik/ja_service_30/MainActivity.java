@@ -2,6 +2,7 @@ package com.example.shurik.ja_service_30;
 
 import android.app.ActivityManager;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.shurik.ja_service_30.model.Entity;
+import com.example.shurik.ja_service_30.receiver.MyBroadcastReceiver;
 import com.example.shurik.ja_service_30.service.CustomService;
 import com.example.shurik.ja_service_30.service.MyExecutorService;
+import com.example.shurik.ja_service_30.service.MyIntentService;
 
 import java.util.List;
 
@@ -22,7 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    Button buttonStart, buttonStop, buttonExecutorService;
+    Button buttonStart, buttonStop, buttonExecutorService, buttonIntentService;
+    private MyBroadcastReceiver myBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +36,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonStart = (Button) findViewById(R.id.activity_main_button_start);
         buttonStop = (Button) findViewById(R.id.activity_main_button_stop);
         buttonExecutorService = (Button) findViewById(R.id.activity_main_button_executor_service);
+        buttonIntentService = (Button) findViewById(R.id.activity_main_button_intent_service);
 
         buttonStart.setOnClickListener(this);
         buttonStop.setOnClickListener(this);
         buttonExecutorService.setOnClickListener(this);
+        buttonIntentService.setOnClickListener(this);
 
         //getServices();
 
@@ -53,6 +59,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+
+        myBroadcastReceiver = new MyBroadcastReceiver();
+
+        IntentFilter intentFilter = new IntentFilter(MyIntentService.ACTION_MY_INTENT_SERVICE);
+        intentFilter.addCategory(Intent.CATEGORY_DEFAULT);
+        registerReceiver(myBroadcastReceiver, intentFilter);
 
     }
 
@@ -81,6 +93,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.activity_main_button_intent_service:
+                Intent intentMyIntentService
+                    = new Intent(MainActivity.this, MyIntentService.class);
+                startService(intentMyIntentService
+                        .putExtra(MyIntentService.TIME_TASK_KEY, 3)
+                        .putExtra(MyIntentService.TASK_KEY, "first task")
+                        .putExtra(MyIntentService.NOTIFICATION, 1));
+                startService(intentMyIntentService
+                        .putExtra(MyIntentService.TIME_TASK_KEY, 1)
+                        .putExtra(MyIntentService.TASK_KEY, "second task")
+                        .putExtra(MyIntentService.NOTIFICATION, 2));
+                startService(intentMyIntentService
+                        .putExtra(MyIntentService.TIME_TASK_KEY, 4)
+                        .putExtra(MyIntentService.TASK_KEY, "third task")
+                        .putExtra(MyIntentService.NOTIFICATION, 3));
+
         }
 
     }
@@ -101,4 +129,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(myBroadcastReceiver);
+    }
 }
